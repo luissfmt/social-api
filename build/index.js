@@ -1,0 +1,21 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const app_1 = require("./controller/app");
+const UserBusiness_1 = require("./business/UserBusiness");
+const IdGenerator_1 = require("./services/IdGenerator");
+const HashManager_1 = require("./services/HashManager");
+const UserDatabase_1 = require("./data/UserDatabase");
+const Authenticator_1 = require("./services/Authenticator");
+const UserController_1 = require("./controller/UserController");
+const PostBusiness_1 = require("./business/PostBusiness");
+const PostDatabase_1 = require("./data/PostDatabase");
+const PostController_1 = require("./controller/PostController");
+const userBusiness = new UserBusiness_1.UserBusiness(new IdGenerator_1.IdGenerator(), new HashManager_1.HashManager(), new UserDatabase_1.UserDatabase(), new Authenticator_1.Authenticator());
+const userController = new UserController_1.UserController(userBusiness);
+const postBusiness = new PostBusiness_1.PostBusiness(new Authenticator_1.Authenticator(), new IdGenerator_1.IdGenerator(), new PostDatabase_1.PostDatabase());
+const postController = new PostController_1.PostController(postBusiness);
+app_1.app.post("/user/signup", userController.signUp);
+app_1.app.post("/user/login", userController.logIn);
+app_1.app.post("/post/create", postController.createPost);
+app_1.app.get("/post/:id", postController.getPostById);
+//# sourceMappingURL=index.js.map
